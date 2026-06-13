@@ -1,4 +1,7 @@
 -- Produkty
+-- UWAGA: kolumna category to enum Category. Pole w encji Product MUSI mieć
+-- @Enumerated(EnumType.STRING), inaczej Hibernate mapuje na ORDINAL (int)
+-- i poniższe wartości tekstowe ('KEYBOARD'...) wywalą start aplikacji.
 INSERT INTO products (name, price, stock, category) VALUES ('Keychron K8 Mechanical Keyboard', 349.00, 25, 'KEYBOARD');
 INSERT INTO products (name, price, stock, category) VALUES ('Logitech MX Keys', 459.99, 15, 'KEYBOARD');
 INSERT INTO products (name, price, stock, category) VALUES ('Logitech MX Master 3S', 399.00, 30, 'MOUSE');

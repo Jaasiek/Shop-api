@@ -1,0 +1,86 @@
+### Sklep z gadżetami IT – wywołania REST API
+### Base URL
+@host = http://localhost:8080
+
+###############################################
+# PRODUKTY (/api/products)
+###############################################
+
+### 1. Lista wszystkich produktów (200)
+GET {{host}}/api/products
+
+### 2. Szczegóły produktu po id (200/404)
+GET {{host}}/api/products/1
+
+### 3. Szukaj produktów po kategorii (200)
+GET {{host}}/api/products/search?category=MOUSE
+
+### 4. Szukaj produktów po max cenie (200)
+GET {{host}}/api/products/search?maxPrice=400
+
+### 5. Szukaj po kategorii i max cenie (200)
+GET {{host}}/api/products/search?category=KEYBOARD&maxPrice=400
+
+### 6. Dodaj produkt (201)
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "name": "SteelSeries Apex Pro",
+  "price": 899.00,
+  "stock": 10,
+  "category": "KEYBOARD"
+}
+
+### 7. Edytuj produkt (200/404)
+PUT {{host}}/api/products/1
+Content-Type: application/json
+
+{
+  "name": "Keychron K8 Pro",
+  "price": 399.00,
+  "stock": 20,
+  "category": "KEYBOARD"
+}
+
+### 8. Usuń produkt (204/404)
+DELETE {{host}}/api/products/8
+
+###############################################
+# ZAMÓWIENIA (/api/orders)
+###############################################
+
+### 9. Lista wszystkich zamówień (200)
+GET {{host}}/api/orders
+
+### 10. Szczegóły zamówienia po id (200/404)
+GET {{host}}/api/orders/1
+
+### 11. Zamówienia danego klienta (200)
+GET {{host}}/api/orders/customer/Jan Kowalski
+
+### 12. Złóż zamówienie (201/409)
+POST {{host}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "Piotr Wiśniewski",
+  "items": [
+    { "productId": 1, "quantity": 2 },
+    { "productId": 3, "quantity": 1 }
+  ]
+}
+
+### 13. Złóż zamówienie – za mało towaru na stanie (409)
+POST {{host}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "Tester Stock",
+  "items": [
+    { "productId": 5, "quantity": 9999 }
+  ]
+}
+
+### 14. Anuluj zamówienie (200/404)
+PUT {{host}}/api/orders/2/cancel

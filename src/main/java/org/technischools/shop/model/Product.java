@@ -1,10 +1,6 @@
 package org.technischools.shop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +26,6 @@ public class Product {
 
     private int stock;
 
-    /** kategoria: KEYBOARD, MOUSE, MONITOR, OTHER */
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 }
