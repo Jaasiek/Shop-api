@@ -1,4 +1,12 @@
 package org.technischools.shop.repository;
 
-public class ProductRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.technischools.shop.model.Category;
+import org.technischools.shop.model.Product;
+
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    List<Product> findByCategoryAndPriceLessThanEqual(Category category, double price);
 }
