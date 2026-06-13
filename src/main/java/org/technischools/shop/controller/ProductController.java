@@ -1,5 +1,6 @@
 package org.technischools.shop.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +30,13 @@ public class ProductController {
     // GET /api/products – lista produktów (200)
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
-        // TODO: implementacja
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(productService.findAll());
     }
 
     // GET /api/products/{id} – szczegóły produktu (200/404)
     @GetMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable Long id) {
-        // TODO: implementacja
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(productService.findById(id));
     }
 
     // GET /api/products/search?category=&maxPrice= – szukaj (200)
@@ -45,28 +44,25 @@ public class ProductController {
     public ResponseEntity<List<Product>> search(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) Double maxPrice) {
-        // TODO: implementacja
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(productService.search(category, maxPrice));
     }
 
     // POST /api/products – dodaj produkt (201)
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody Product product) {
-        // TODO: implementacja
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(product));
     }
 
     // PUT /api/products/{id} – edytuj produkt (200/404)
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
-        // TODO: implementacja
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(productService.update(id, product));
     }
 
     // DELETE /api/products/{id} – usuń produkt (204/404)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        // TODO: implementacja
+        productService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
