@@ -12,5 +12,8 @@ public class AppConfig {
         return new InvoiceNumberGenerator();
     }
 
-    // Price formater TODO
+    @Bean
+    public PriceFormater priceFormatter() {
+        return new PriceFormater();
+    }
 }
