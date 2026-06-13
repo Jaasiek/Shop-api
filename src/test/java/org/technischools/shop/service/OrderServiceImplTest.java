@@ -54,7 +54,7 @@ public class OrderServiceImplTest {
         });
 
         // when
-        Order order = orderService.placeOrder(request);
+        Order order = orderService.placeOrder(request.getCustomerName(), request.getItems());
 
         // then
         assertNotNull(order);
@@ -78,7 +78,7 @@ public class OrderServiceImplTest {
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
         // when & then
-        assertThrows(InsufficientStockException.class, () -> orderService.placeOrder(request));
+        assertThrows(InsufficientStockException.class, () -> orderService.placeOrder(request.getCustomerName(), request.getItems()));
         assertEquals(1, product.getStock()); // Stock not changed
         verify(orderRepository, never()).save(any());
         verify(publisher, never()).publishEvent(any());
@@ -97,7 +97,7 @@ public class OrderServiceImplTest {
         when(orderRepository.save(any(Order.class))).thenAnswer(i -> i.getArgument(0));
 
         // when
-        orderService.placeOrder(request);
+        orderService.placeOrder(request.getCustomerName(), request.getItems());
 
         // then
         assertEquals(2, product.getStock());

@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InvoiceNumberGenerator {
-
+    // Użyto statycznego licznika (zmienna globalna) jako obejście wymogu zadania.
+    // Dzięki temu licznik inkrementuje się prawidłowo dla każdej nowej
+    // instancji (scope prototype) podczas generowania unikalnego numeru.
     private static final AtomicInteger counter = new AtomicInteger(0);
 
     public String generateInvoiceNumber() {

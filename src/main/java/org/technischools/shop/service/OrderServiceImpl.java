@@ -30,15 +30,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order placeOrder(OrderRequest orderRequest) {
+    public Order placeOrder(String customerName, List<OrderItemRequest> items) {
         Order order = Order.builder()
-                .customerName(orderRequest.getCustomerName())
+                .customerName(customerName)
                 .status(OrderStatus.PENDING)
                 .build();
 
         double totalPrice = 0;
 
-        for (OrderItemRequest itemRequest : orderRequest.getItems()) {
+        for (OrderItemRequest itemRequest : items) {
             Product product = productRepository.findById(itemRequest.getProductId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Product not found: " + itemRequest.getProductId()));
@@ -86,10 +86,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findByCustomer(String customerName) {
-        return orderRepository.findByCustomerNameIgnoreCase(customerName)
-                .filter(orders -> !orders.isEmpty())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Order Not Found for client " + customerName));
+        List<Order> orders = orderRepository.findByCustomerNameIgnoreCase(customerName);
+        if (orders.isEmpty()) {
+            throw new ResourceNotFoundException("Order Not Found for client " + customerName);
+        }
+        return orders;
     }
 
     @Override

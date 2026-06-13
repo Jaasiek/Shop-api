@@ -1,5 +1,6 @@
 package org.technischools.shop.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,13 +50,13 @@ public class ProductController {
 
     // POST /api/products – dodaj produkt (201)
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(product));
     }
 
     // PUT /api/products/{id} – edytuj produkt (200/404)
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product product) {
         return ResponseEntity.ok(productService.update(id, product));
     }
 

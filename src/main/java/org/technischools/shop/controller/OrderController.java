@@ -1,5 +1,6 @@
 package org.technischools.shop.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +45,8 @@ public class OrderController {
 
     // POST /api/orders – złóż zamówienie (201/409)
     @PostMapping
-    public ResponseEntity<Order> placeOrder(@RequestBody OrderRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.placeOrder(request));
+    public ResponseEntity<Order> placeOrder(@Valid @RequestBody OrderRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.placeOrder(request.getCustomerName(), request.getItems()));
     }
 
     // PUT /api/orders/{id}/cancel – anuluj zamówienie (200/404)

@@ -13,7 +13,7 @@ public class AppConfig {
     }
 
     @Bean
-    public PriceFormater priceFormatter() {
-        return new PriceFormater();
+    public PriceFormatter priceFormatter() {
+        return new PriceFormatter();
     }
 }
