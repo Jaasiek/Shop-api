@@ -130,4 +130,22 @@ public class OrderServiceImplTest {
         assertThrows(ResourceNotFoundException.class, () -> orderService.cancelOrder(99L));
         verify(publisher, never()).publishEvent(any());
     }
+
+    @Test
+    void should_notModifyStock_when_orderAlreadyCancelled() {
+        // given
+        Product product = Product.builder().id(1L).name("Monitor").stock(0).build();
+        OrderItem item = OrderItem.builder().product(product).quantity(2).build();
+        Order order = Order.builder().id(10L).status(OrderStatus.CANCELLED).items(List.of(item)).build();
+
+        when(orderRepository.findById(10L)).thenReturn(Optional.of(order));
+
+        // when
+        orderService.cancelOrder(10L);
+
+        // then
+        assertEquals(OrderStatus.CANCELLED, order.getStatus());
+        assertEquals(0, product.getStock()); // stock remains unchanged
+        verify(publisher, never()).publishEvent(any(OrderCanceledEvent.class));
+    }
 }

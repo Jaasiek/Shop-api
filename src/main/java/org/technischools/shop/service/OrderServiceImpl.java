@@ -74,6 +74,10 @@ public class OrderServiceImpl implements OrderService {
     public Order cancelOrder(Long orderId) {
         Order order = findById(orderId);
 
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            return order;
+        }
+
         for (OrderItem item : order.getItems()) {
             Product product = item.getProduct();
             product.setStock(product.getStock() + item.getQuantity());
@@ -86,11 +90,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findByCustomer(String customerName) {
-        List<Order> orders = orderRepository.findByCustomerNameIgnoreCase(customerName);
-        if (orders.isEmpty()) {
-            throw new ResourceNotFoundException("Order Not Found for client " + customerName);
-        }
-        return orders;
+        return orderRepository.findByCustomerNameIgnoreCase(customerName);
     }
 
     @Override
