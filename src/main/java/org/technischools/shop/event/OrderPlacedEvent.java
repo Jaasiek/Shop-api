@@ -7,10 +7,6 @@ import org.technischools.shop.model.OrderStatus;
 
 import java.time.LocalDate;
 
-/**
- * Event publikowany po złożeniu zamówienia.
- * Listener (@EventListener) loguje zamówienie i generuje mock numeru faktury.
- */
 @Getter
 public class OrderPlacedEvent extends ApplicationEvent {
 

@@ -9,4 +9,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByCategoryAndPriceLessThanEqual(Category category, double price);
+    
+    List<Product> findByCategory(Category category);
+    
+    List<Product> findByPriceLessThanEqual(double price);
 }

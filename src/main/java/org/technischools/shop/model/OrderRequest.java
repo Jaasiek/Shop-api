@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
 
-/** Klasa żądania: złożenie zamówienia (POST /api/orders). */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +19,10 @@ import java.util.List;
 @Builder
 public class OrderRequest {
 
+    @NotBlank(message = "Customer name cannot be blank")
     private String customerName;
 
+    @NotEmpty(message = "Order must contain at least one item")
+    @Valid
     private List<OrderItemRequest> items;
 }

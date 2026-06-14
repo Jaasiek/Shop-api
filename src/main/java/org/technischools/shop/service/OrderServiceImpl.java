@@ -30,15 +30,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order placeOrder(OrderRequest orderRequest) {
+    public Order placeOrder(String customerName, List<OrderItemRequest> items) {
         Order order = Order.builder()
-                .customerName(orderRequest.getCustomerName())
+                .customerName(customerName)
                 .status(OrderStatus.PENDING)
                 .build();
 
         double totalPrice = 0;
 
-        for (OrderItemRequest itemRequest : orderRequest.getItems()) {
+        for (OrderItemRequest itemRequest : items) {
             Product product = productRepository.findById(itemRequest.getProductId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Product not found: " + itemRequest.getProductId()));
@@ -48,7 +48,6 @@ public class OrderServiceImpl implements OrderService {
                         "Insufficient stock for product " + product.getName());
             }
 
-            // zmniejsz stan magazynowy (encja zarządzana – flush przy commit transakcji)
             product.setStock(product.getStock() - itemRequest.getQuantity());
 
             OrderItem orderItem = OrderItem.builder()
@@ -74,6 +73,10 @@ public class OrderServiceImpl implements OrderService {
     public Order cancelOrder(Long orderId) {
         Order order = findById(orderId);
 
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            return order;
+        }
+
         for (OrderItem item : order.getItems()) {
             Product product = item.getProduct();
             product.setStock(product.getStock() + item.getQuantity());
@@ -86,10 +89,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findByCustomer(String customerName) {
-        return orderRepository.findByCustomerNameIgnoreCase(customerName)
-                .filter(orders -> !orders.isEmpty())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Order Not Found for client " + customerName));
+        return orderRepository.findByCustomerNameIgnoreCase(customerName);
     }
 
     @Override
