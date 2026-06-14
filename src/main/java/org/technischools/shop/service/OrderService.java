@@ -14,7 +14,6 @@ public interface OrderService {
 
     List<Order> findByCustomer(String customerName);
 
-    // pomocnicze metody dla endpointów GET
     List<Order> findAll();
 
     Order findById(Long id);

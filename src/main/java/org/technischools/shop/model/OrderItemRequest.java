@@ -9,7 +9,6 @@ import lombok.Setter;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-/** Klasa żądania: pojedyncza pozycja przy składaniu zamówienia. */
 @Getter
 @Setter
 @NoArgsConstructor

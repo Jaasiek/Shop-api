@@ -48,7 +48,6 @@ public class OrderServiceImpl implements OrderService {
                         "Insufficient stock for product " + product.getName());
             }
 
-            // zmniejsz stan magazynowy (encja zarządzana – flush przy commit transakcji)
             product.setStock(product.getStock() - itemRequest.getQuantity());
 
             OrderItem orderItem = OrderItem.builder()

@@ -12,7 +12,6 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
-/** Klasa żądania: złożenie zamówienia (POST /api/orders). */
 @Getter
 @Setter
 @NoArgsConstructor

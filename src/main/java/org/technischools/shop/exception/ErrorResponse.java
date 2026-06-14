@@ -2,7 +2,6 @@ package org.technischools.shop.exception;
 
 import java.time.LocalDateTime;
 
-/** Kształt odpowiedzi błędu: { "status": 409, "message": "...", "timestamp": "..." } */
 public record ErrorResponse(int status, String message, LocalDateTime timestamp) {
 
     public static ErrorResponse of(int status, String message) {

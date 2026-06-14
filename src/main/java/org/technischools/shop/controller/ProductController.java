@@ -21,26 +21,22 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    // controller wstrzykuje interfejs, nie implementację
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    // GET /api/products – lista produktów (200)
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
         return ResponseEntity.ok(productService.findAll());
     }
 
-    // GET /api/products/{id} – szczegóły produktu (200/404)
     @GetMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.findById(id));
     }
 
-    // GET /api/products/search?category=&maxPrice= – szukaj (200)
     @GetMapping("/search")
     public ResponseEntity<List<Product>> search(
             @RequestParam(required = false) String category,
@@ -48,19 +44,16 @@ public class ProductController {
         return ResponseEntity.ok(productService.search(category, maxPrice));
     }
 
-    // POST /api/products – dodaj produkt (201)
     @PostMapping
     public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(product));
     }
 
-    // PUT /api/products/{id} – edytuj produkt (200/404)
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product product) {
         return ResponseEntity.ok(productService.update(id, product));
     }
 
-    // DELETE /api/products/{id} – usuń produkt (204/404)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.delete(id);
